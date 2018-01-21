@@ -6,6 +6,8 @@ const helmet = require('helmet');
 const app = express();
 const port = process.env.PORT || 3000;
 
+const userRoutes = require('./api/routes/user.routes');
+
 app
   .use(helmet())
   .use((req, res, next) => {
@@ -15,4 +17,5 @@ app
   })
   .use(bodyParser.urlencoded({ extended: true }))
   .use(bodyParser.json())
-  .listen(port, () => console.log(`Server running on port ${port}`));
+  .use('/users', userRoutes)
+  .listen(port, () => console.log(`Server running on port ${ port }`));
