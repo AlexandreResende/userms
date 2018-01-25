@@ -33,6 +33,22 @@ class User {
       });
   }
 
+  static editUser(req) {
+    models.User.update(
+      req.body,
+      {
+        where: {
+          id: req.params.userId
+        }
+    })
+      .then(userUpdatedResult => {
+        return userUpdatedResult;
+      })
+      .catch(err => {
+        throw err;
+      });
+  }
+
   static deleteUser(req) {
     models.User.destroy({
       where: {
@@ -47,6 +63,5 @@ class User {
       });
   }
 }
-
 
 module.exports = User;
