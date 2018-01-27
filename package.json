@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js NODE_ENV=production",
+    "test": "mocha test",
+    "test:coverage": "nyc mocha"
   },
   "keywords": [],
   "author": "",
