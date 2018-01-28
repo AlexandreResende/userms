@@ -1,8 +1,11 @@
 
 const Joi = require('joi');
 
+const UserModel = require('../models-persistence/user.model');
+
 module.exports.getUser = (req, res, next) => {
-  //call model
+  const getUserResponse = UserModel().getUser(req.params.userId);
+  return getUserResponse;
 };
 
 module.exports.addUser = (req, res, next) => {
@@ -18,7 +21,8 @@ module.exports.addUser = (req, res, next) => {
   Promise
     .all([userValidation])
     .then(result => {
-      //call model
+      const addUserResponse = UserModel().addUser(req.body);
+      return addUserResponse
     })
     .catch(() => {
       res.status(500).send({ error: 'An error occurred in addUser controller' });
@@ -38,7 +42,8 @@ module.exports.editUser = (req, res, next) => {
   Promise
     .all([userValidation])
     .then(result => {
-      //call model
+      const editUserResponse = UserModel().editUser(req.body);
+      return editUserResponse
     })
     .catch(() => {
       res.status(500).send({ error: 'An error occurred in editUser controller' });
@@ -46,5 +51,6 @@ module.exports.editUser = (req, res, next) => {
 };
 
 module.exports.deleteUser = (req, res, next) => {
-  //call model
+  const deleteUserResponse = UserModel().deleteUser(req.params.userId);
+  return deleteUserResponse;
 };
