@@ -42,7 +42,7 @@ module.exports.editUser = (req, res, next) => {
   Promise
     .all([userValidation])
     .then(result => {
-      const editUserResponse = UserModel().editUser(req.body);
+      const editUserResponse = UserModel().editUser(reqp.params.userId, req.body);
       return editUserResponse
     })
     .catch(() => {

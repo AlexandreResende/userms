@@ -2,10 +2,10 @@
 const models = require('../models');
 
 class User {
-  static getUser(req) {
+  static getUser(userId) {
     models.User.find({
       where: {
-        id: req.params.id,
+        id: userId,
       }
     })
       .then(userFoundResult => {
@@ -16,14 +16,14 @@ class User {
       });
   }
 
-  static addUser(req) {
+  static addUser(userSignupInformation) {
     models.User.create({
-      name: req.body.name,
-      username: req.body.username,
-      password: req.body.password,
-      email: req.body.email,
-      date_of_birth: req.body.dateOfBirth,
-      active: true
+      name: userSignupInformation.name,
+      username: userSignupInformation.username,
+      password: userSignupInformation.password,
+      email: userSignupInformation.email,
+      date_of_birth: userSignupInformation.dateOfBirth,
+      active: true,
     })
       .then(userCreated => {
         return userCreated;
@@ -33,12 +33,12 @@ class User {
       });
   }
 
-  static editUser(req) {
+  static editUser(userId, userEditInformation) {
     models.User.update(
-      req.body,
+      userEditInformation,
       {
         where: {
-          id: req.params.userId
+          id: userId,
         }
     })
       .then(userUpdatedResult => {
@@ -49,10 +49,10 @@ class User {
       });
   }
 
-  static deleteUser(req) {
+  static deleteUser(userId) {
     models.User.destroy({
       where: {
-        id: req.parms.id
+        id: userId,
       }
     })
       .then(userToBeDeleted => {
