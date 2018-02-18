@@ -6,7 +6,10 @@ const UserModel = require('../models-persistence/user.model');
 module.exports.getUser = (req, res, next) => {
   const getUserResponse = UserModel().getUser(req.params.userId);
   
-  res.status(200).send(getUserResponse);
+  res.status(200).send({
+    result: getUserResponse,
+    error: ''
+  });
 };
 
 module.exports.addUser = (req, res, next) => {
@@ -24,10 +27,16 @@ module.exports.addUser = (req, res, next) => {
     .then(result => {
       const addUserResponse = UserModel().addUser(req.body);
       
-      res.status(201).send(addUserResponse);
+      res.status(201).send({
+        result: addUserResponse,
+        error: ''
+      });
     })
     .catch(() => {
-      res.status(500).send({ error: 'An error occurred in addUser controller' });
+      res.status(500).send({
+        result: '',
+        error: 'An error occurred in addUser controller'
+      });
     });
 };
 
@@ -46,10 +55,14 @@ module.exports.editUser = (req, res, next) => {
     .then(result => {
       const editUserResponse = UserModel().editUser(reqp.params.userId, req.body);
 
-      res.status(204).send(editUserResponse)
+      res.status(204).send({
+        result: editUserResponse,
+        error: ''
+      })
     })
     .catch(() => {
       res.status(500).send({
+        result: '',
         error: 'An error occurred in editUser controller'
       });
     });
@@ -58,5 +71,8 @@ module.exports.editUser = (req, res, next) => {
 module.exports.deleteUser = (req, res, next) => {
   const deleteUserResponse = UserModel().deleteUser(req.params.userId);
   
-  res.status(204).send(deleteUserResponse);
+  res.status(204).send({
+    result: deleteUserResponse,
+    error: ''
+  });
 };
