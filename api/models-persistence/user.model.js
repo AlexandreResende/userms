@@ -4,13 +4,25 @@ const models = require('../models');
 class User {
   static getUser(userId) {
     return new Promise((resolve, reject) => {
-      models.User.find({
+      models.Users.find({
         where: {
           id: userId,
         }
       })
         .then(userFoundResult => {
           resolve(userFoundResult);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
+  static getUsers() {
+    return new Promise((resolve, reject) => {
+      models.Users.findAll({})
+        .then(usersFoundResult => {
+          resolve(usersFoundResult);
         })
         .catch(err => {
           reject(err);
@@ -39,13 +51,14 @@ class User {
 
   static editUser(userId, userEditInformation) {
     return new Promise((resolve, reject) => {
-      models.User.update(
+      models.Users.update(
         userEditInformation,
         {
           where: {
             id: userId,
           }
-      })
+        }
+      )
         .then(userUpdatedResult => {
           resolve(userUpdatedResult);
         })
@@ -57,7 +70,7 @@ class User {
 
   static deleteUser(userId) {
     return new Promise((resolve, reject) => {
-      models.User.destroy({
+      models.Users.destroy({
         where: {
           id: userId,
         }
