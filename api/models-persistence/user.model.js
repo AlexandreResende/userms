@@ -3,64 +3,72 @@ const models = require('../models');
 
 class User {
   static getUser(userId) {
-    models.User.find({
-      where: {
-        id: userId,
-      }
-    })
-      .then(userFoundResult => {
-        return userFoundResult;
-      })
-      .catch(err => {
-        throw err;
-      });
-  }
-
-  static addUser(userSignupInformation) {
-    models.User.create({
-      name: userSignupInformation.name,
-      username: userSignupInformation.username,
-      password: userSignupInformation.password,
-      email: userSignupInformation.email,
-      date_of_birth: userSignupInformation.dateOfBirth,
-      active: true,
-    })
-      .then(userCreated => {
-        return userCreated;
-      })
-      .catch(err => {
-        throw err;
-      });
-  }
-
-  static editUser(userId, userEditInformation) {
-    models.User.update(
-      userEditInformation,
-      {
+    return new Promise((resolve, reject) => {
+      models.User.find({
         where: {
           id: userId,
         }
-    })
-      .then(userUpdatedResult => {
-        return userUpdatedResult;
       })
-      .catch(err => {
-        throw err;
-      });
+        .then(userFoundResult => {
+          resolve(userFoundResult);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
+  static addUser(userSignupInformation) {
+    return new Promise((resolve, reject) => {
+      models.Users.create({
+        name: userSignupInformation.name,
+        username: userSignupInformation.username,
+        password: userSignupInformation.password,
+        email: userSignupInformation.email,
+        date_of_birth: userSignupInformation.date_of_birth,
+        active: true,
+      })
+        .then(userCreated => {
+          resolve(userCreated);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
+  static editUser(userId, userEditInformation) {
+    return new Promise((resolve, reject) => {
+      models.User.update(
+        userEditInformation,
+        {
+          where: {
+            id: userId,
+          }
+      })
+        .then(userUpdatedResult => {
+          resolve(userUpdatedResult);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
   }
 
   static deleteUser(userId) {
-    models.User.destroy({
-      where: {
-        id: userId,
-      }
-    })
-      .then(userToBeDeleted => {
-        return userToBeDeleted;
+    return new Promise((resolve, reject) => {
+      models.User.destroy({
+        where: {
+          id: userId,
+        }
       })
-      .catch(err => {
-        throw err;
-      });
+        .then(userToBeDeleted => {
+          resolve(userToBeDeleted);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
   }
 }
 
