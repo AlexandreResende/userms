@@ -17,5 +17,5 @@ app
   })
   .use(bodyParser.urlencoded({ extended: true }))
   .use(bodyParser.json())
-  .use('/users', userRoutes)
+  .use(userRoutes)
   .listen(port, () => console.log(`Server running on port ${ port }`));
