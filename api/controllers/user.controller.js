@@ -6,10 +6,19 @@ const UserModel = require('../models-persistence/user.model');
 module.exports.getUser = (req, res, next) => {
   const getUserResponse = UserModel().getUser(req.params.userId);
   
-  res.status(200).send({
-    result: getUserResponse,
-    error: ''
-  });
+  getUserResponse
+    .then((userFound) => {
+      res.status(200).send({
+        result: userFound,
+        error: '',
+      });
+    })
+    .catch(() => {
+      res.status(200).send({
+        result: '',
+        error: 'User not found',
+      });
+    });
 };
 
 module.exports.addUser = (req, res, next) => {
@@ -25,14 +34,24 @@ module.exports.addUser = (req, res, next) => {
   Promise
     .all([userValidation])
     .then(result => {
-      const addUserResponse = UserModel().addUser(req.body);
-      
-      res.status(201).send({
-        result: addUserResponse,
-        error: ''
-      });
+      const addUserResponse = UserModel.addUser(req.body);
+
+      addUserResponse
+        .then((userCreated) => {
+          res.status(201).send({
+            result: userCreated,
+            error: '',
+          });
+        })
+        .catch(() => {
+          res.status(201).send({
+            result: '',
+            error: 'User not created',
+          });
+        });
     })
-    .catch(() => {
+    .catch((err) => {
+      console.log(err);
       res.status(500).send({
         result: '',
         error: 'An error occurred in addUser controller'
@@ -55,15 +74,24 @@ module.exports.editUser = (req, res, next) => {
     .then(result => {
       const editUserResponse = UserModel().editUser(reqp.params.userId, req.body);
 
-      res.status(204).send({
-        result: editUserResponse,
-        error: ''
-      })
+      editUserResponse
+        .then((userEditInfo) => {
+          res.status(204).send({
+            result: userEditInfo,
+            error: '',
+          });
+        })
+        .catch(() => {
+          res.status(204).send({
+            result: '',
+            error: 'Edit user not possible',
+          });
+        });
     })
     .catch(() => {
       res.status(500).send({
         result: '',
-        error: 'An error occurred in editUser controller'
+        error: 'An error occurred in editUser controller',
       });
     });
 };
@@ -71,8 +99,17 @@ module.exports.editUser = (req, res, next) => {
 module.exports.deleteUser = (req, res, next) => {
   const deleteUserResponse = UserModel().deleteUser(req.params.userId);
   
-  res.status(204).send({
-    result: deleteUserResponse,
-    error: ''
-  });
+  deleteUserResponse
+    .then((userDeletion) => {
+      res.status(204).send({
+        result: userDeletion,
+        error: '',
+      });
+    })
+    .catch(() => {
+      res.status(204).send({
+        result: '',
+        error: 'User deletion not possible',
+      });
+    });
 };
