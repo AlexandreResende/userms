@@ -19,3 +19,5 @@ app
   .use(bodyParser.json())
   .use(userRoutes)
   .listen(port, () => console.log(`Server running on port ${ port }`));
+
+module.exports = app;
